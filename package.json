@@ -31,7 +31,7 @@
         "lottie-react": "^2.4.1",
         "lucide-react": "^0.526.0",
         "matter-js": "^0.20.0",
-        "next": "15.4.4",
+        "next": "16.0.7",
         "pixi-spine": "^4.0.6",
         "pixi.js": "^8.13.2",
         "react": "19.1.0",
