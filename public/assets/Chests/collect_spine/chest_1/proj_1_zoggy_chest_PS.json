@@ -1,0 +1,32 @@
+{ "skeleton": { "images": "D:/WORK/ClickAble/proj/proj_1_zoggy_chest/images/" },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "Layer 3 copy", "bone": "root", "attachment": "Layer 3 copy" },
+	{ "name": "Layer 4", "bone": "root", "attachment": "Layer 4" },
+	{ "name": "Layer 5", "bone": "root", "attachment": "Layer 5" },
+	{ "name": "Layer 1", "bone": "root", "attachment": "Layer 1" },
+	{ "name": "Layer 2", "bone": "root", "attachment": "Layer 2" }
+],
+"skins": {
+	"default": {
+		"Layer 3 copy": {
+			"Layer 3 copy": { "x": 525.5, "y": -330, "width": 605, "height": 286 }
+		},
+		"Layer 4": {
+			"Layer 4": { "x": 489, "y": -564.5, "width": 620, "height": 357 }
+		},
+		"Layer 5": {
+			"Layer 5": { "x": 705.5, "y": -568.5, "width": 75, "height": 123 }
+		},
+		"Layer 1": {
+			"Layer 1": { "x": 499, "y": -397.5, "width": 628, "height": 249 }
+		},
+		"Layer 2": {
+			"Layer 2": { "x": 418, "y": -563, "width": 242, "height": 276 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}

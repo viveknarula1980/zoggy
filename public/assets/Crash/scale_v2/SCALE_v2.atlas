@@ -1,0 +1,20 @@
+
+SCALE_v2.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+block
+  rotate: false
+  xy: 2, 53
+  size: 86, 63
+  orig: 86, 63
+  offset: 0, 0
+  index: -1
+line
+  rotate: true
+  xy: 2, 33
+  size: 18, 114
+  orig: 18, 114
+  offset: 0, 0
+  index: -1

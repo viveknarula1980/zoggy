@@ -1,0 +1,89 @@
+
+BG.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+asteroid
+  rotate: true
+  xy: 180, 1861
+  size: 117, 127
+  orig: 117, 127
+  offset: 0, 0
+  index: -1
+bg1
+  rotate: false
+  xy: 453, 806
+  size: 949, 802
+  orig: 949, 802
+  offset: 0, 0
+  index: -1
+bg2
+  rotate: false
+  xy: 2, 2
+  size: 1191, 802
+  orig: 1191, 802
+  offset: 0, 0
+  index: -1
+comet
+  rotate: false
+  xy: 309, 1751
+  size: 278, 227
+  orig: 278, 227
+  offset: 0, 0
+  index: -1
+derizhabl
+  rotate: false
+  xy: 2, 1374
+  size: 449, 375
+  orig: 449, 375
+  offset: 0, 0
+  index: -1
+helikopter
+  rotate: false
+  xy: 589, 1730
+  size: 298, 248
+  orig: 298, 248
+  offset: 0, 0
+  index: -1
+smoke1
+  rotate: false
+  xy: 889, 1628
+  size: 484, 350
+  orig: 484, 350
+  offset: 0, 0
+  index: -1
+smoke2
+  rotate: false
+  xy: 1375, 1610
+  size: 433, 368
+  orig: 433, 368
+  offset: 0, 0
+  index: -1
+sputnik
+  rotate: false
+  xy: 2, 1896
+  size: 176, 82
+  orig: 176, 82
+  offset: 0, 0
+  index: -1
+
+BG2.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bg3
+  rotate: false
+  xy: 2, 2
+  size: 1107, 802
+  orig: 1107, 802
+  offset: 0, 0
+  index: -1
+bg4
+  rotate: false
+  xy: 2, 806
+  size: 1149, 802
+  orig: 1149, 802
+  offset: 0, 0
+  index: -1

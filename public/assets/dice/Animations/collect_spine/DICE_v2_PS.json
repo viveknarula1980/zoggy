@@ -1,0 +1,24 @@
+{ "skeleton": { "images": "D:/WORK/ClickAble/proj/DICE_v2/images/" },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "BG", "bone": "root", "attachment": "BG" },
+	{ "name": "light", "bone": "root", "attachment": "light" },
+	{ "name": "coin", "bone": "root", "attachment": "coin" }
+],
+"skins": {
+	"default": {
+		"BG": {
+			"BG": { "x": 0, "y": -1, "width": 1346, "height": 802 }
+		},
+		"light": {
+			"light": { "x": -0.5, "y": -194.5, "width": 321, "height": 323 }
+		},
+		"coin": {
+			"coin": { "x": -0.5, "y": -193.5, "width": 183, "height": 183 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}

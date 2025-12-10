@@ -1,0 +1,484 @@
+{
+  "version": "0.1.0",
+  "name": "mines",
+  "instructions": [
+    {
+      "name": "initializeConfig",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "vaultBump",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "fundVault",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Config",
+                "path": "config.authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "adminWithdraw",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "playGame",
+      "accounts": [
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "config"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "account": "Config",
+                "path": "config.authority"
+              }
+            ]
+          }
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerGame",
+          "isMut": true,
+          "isSigner": false,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "type": "string",
+                "value": "pgame"
+              },
+              {
+                "kind": "account",
+                "type": "publicKey",
+                "path": "player"
+              },
+              {
+                "kind": "account",
+                "type": "u64",
+                "account": "Config",
+                "path": "config.total_games"
+              }
+            ]
+          }
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "rows",
+          "type": "u8"
+        },
+        {
+          "name": "cols",
+          "type": "u8"
+        },
+        {
+          "name": "minesCount",
+          "type": "u8"
+        },
+        {
+          "name": "betLamports",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "revealCell",
+      "accounts": [
+        {
+          "name": "playerGame",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "index",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "cashout",
+      "accounts": [
+        {
+          "name": "config",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "playerGame",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "player",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "vaultBump",
+            "type": "u8"
+          },
+          {
+            "name": "totalGames",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerGame",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "player",
+            "type": "publicKey"
+          },
+          {
+            "name": "config",
+            "type": "publicKey"
+          },
+          {
+            "name": "gameId",
+            "type": "u64"
+          },
+          {
+            "name": "betLamports",
+            "type": "u64"
+          },
+          {
+            "name": "rows",
+            "type": "u8"
+          },
+          {
+            "name": "cols",
+            "type": "u8"
+          },
+          {
+            "name": "minesCount",
+            "type": "u8"
+          },
+          {
+            "name": "totalCells",
+            "type": "u16"
+          },
+          {
+            "name": "seed",
+            "type": "u64"
+          },
+          {
+            "name": "revealedCount",
+            "type": "u8"
+          },
+          {
+            "name": "finished",
+            "type": "bool"
+          },
+          {
+            "name": "won",
+            "type": "bool"
+          },
+          {
+            "name": "revealedBitmap",
+            "type": {
+              "array": ["u8", 32]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "GameStarted",
+      "fields": [
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "bet",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CellRevealed",
+      "fields": [
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "index",
+          "type": "u16",
+          "index": false
+        },
+        {
+          "name": "revealedCount",
+          "type": "u8",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "GameLost",
+      "fields": [
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "index",
+          "type": "u16",
+          "index": false
+        }
+      ]
+    },
+    {
+      "name": "CashedOut",
+      "fields": [
+        {
+          "name": "player",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "gameId",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "payout",
+          "type": "u64",
+          "index": false
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidGridSize",
+      "msg": "Invalid grid size"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidMinesCount",
+      "msg": "Invalid mines count for the grid"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidBetAmount",
+      "msg": "Invalid bet amount"
+    },
+    {
+      "code": 6003,
+      "name": "Arithmetic",
+      "msg": "Arithmetic overflow"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidCellIndex",
+      "msg": "Invalid cell index"
+    },
+    {
+      "code": 6005,
+      "name": "CellAlreadyRevealed",
+      "msg": "Cell already revealed"
+    },
+    {
+      "code": 6006,
+      "name": "GameFinished",
+      "msg": "Game already finished"
+    },
+    {
+      "code": 6007,
+      "name": "InsufficientVaultFunds",
+      "msg": "Insufficient vault funds"
+    },
+    {
+      "code": 6008,
+      "name": "Unauthorized",
+      "msg": "Unauthorized"
+    }
+  ],
+  "metadata": {
+    "address": "6nArczunjwtgoT1vTXjB72P2bbidYoPPyPbQdjXLT38Y"
+  }
+}

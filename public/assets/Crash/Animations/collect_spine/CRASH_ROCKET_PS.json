@@ -1,0 +1,64 @@
+{ "skeleton": { "images": "D:/WORK/ClickAble/proj/Crash/images/" },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "Layer 1", "bone": "root", "attachment": "Layer 1" },
+	{ "name": "expl_particle_4", "bone": "root", "attachment": "expl_particle_4" },
+	{ "name": "expl_particle_3", "bone": "root", "attachment": "expl_particle_3" },
+	{ "name": "expl_particle_2", "bone": "root", "attachment": "expl_particle_2" },
+	{ "name": "expl_particle_1", "bone": "root", "attachment": "expl_particle_1" },
+	{ "name": "dirt_rocket_1", "bone": "root", "attachment": "dirt_rocket_1" },
+	{ "name": "dirt_rocket_2", "bone": "root", "attachment": "dirt_rocket_2" },
+	{ "name": "dirt_rocket_3", "bone": "root", "attachment": "dirt_rocket_3" },
+	{ "name": "dirt_rocket_4", "bone": "root", "attachment": "dirt_rocket_4" },
+	{ "name": "dirt_rocket_5", "bone": "root", "attachment": "dirt_rocket_5" },
+	{ "name": "explosion_1", "bone": "root", "attachment": "explosion_1" },
+	{ "name": "fiire", "bone": "root", "attachment": "fiire" },
+	{ "name": "glow", "bone": "root", "attachment": "glow" }
+],
+"skins": {
+	"default": {
+		"Layer 1": {
+			"Layer 1": { "x": 561.5, "y": -497, "width": 675, "height": 476 }
+		},
+		"expl_particle_4": {
+			"expl_particle_4": { "x": 261, "y": -236.5, "width": 122, "height": 149 }
+		},
+		"expl_particle_3": {
+			"expl_particle_3": { "x": 319, "y": -530, "width": 50, "height": 36 }
+		},
+		"expl_particle_2": {
+			"expl_particle_2": { "x": 495, "y": -638, "width": 22, "height": 28 }
+		},
+		"expl_particle_1": {
+			"expl_particle_1": { "x": 542.5, "y": -682, "width": 35, "height": 54 }
+		},
+		"dirt_rocket_1": {
+			"dirt_rocket_1": { "x": 662, "y": -542, "width": 164, "height": 92 }
+		},
+		"dirt_rocket_2": {
+			"dirt_rocket_2": { "x": 731.5, "y": -505.5, "width": 55, "height": 89 }
+		},
+		"dirt_rocket_3": {
+			"dirt_rocket_3": { "x": 800.5, "y": -475.5, "width": 57, "height": 55 }
+		},
+		"dirt_rocket_4": {
+			"dirt_rocket_4": { "x": 716, "y": -462, "width": 80, "height": 54 }
+		},
+		"dirt_rocket_5": {
+			"dirt_rocket_5": { "x": 744, "y": -476.5, "width": 132, "height": 83 }
+		},
+		"explosion_1": {
+			"explosion_1": { "x": 500, "y": -500.5, "width": 1002, "height": 721 }
+		},
+		"fiire": {
+			"fiire": { "x": 499.5, "y": -487.5, "width": 95, "height": 103 }
+		},
+		"glow": {
+			"glow": { "x": 526, "y": -462.5, "width": 290, "height": 297 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}

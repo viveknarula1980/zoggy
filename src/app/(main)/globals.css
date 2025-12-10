@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+@theme {
+  --font-script: Great Vibes, cursive;
+  
+  --color-background: #0e0a1f;
+  --color-background-secondary: #221F42;
+  --color-neon-pink: #b91c1c;
+  --color-purple: #600db5;
+  
+  --color-light: #F2F5FF;
+  --color-soft: #B8A1E0;
+  
+  --shadow-glow: 0 0 8px rgba(157, 78, 221, 0.7);
+  --glass-effect: backdrop-filter: blur(10px);
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+}
+
+/* Remove dark mode override since we're using a dark theme by default */
+body {
+  background: var(--color-background);
+  color: var(--color-light);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Add some basic theme styles */
+code {
+  background: var(--color-background-secondary) !important;
+  color: var(--color-neon-pink) !important;
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(34, 31, 66, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.glass-dark {
+  background: rgba(14, 10, 31, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-card {
+  background: rgba(34, 31, 66, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite linear;
+}
+
+/* Hide number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+@keyframes coinFlip {
+  0% {
+      transform: rotateY(0deg) rotateX(0deg);
+  }
+  25% {
+      transform: rotateY(90deg) rotateX(180deg);
+  }
+  50% {
+      transform: rotateY(180deg) rotateX(360deg);
+  }
+  75% {
+      transform: rotateY(270deg) rotateX(540deg);
+  }
+  100% {
+      transform: rotateY(360deg) rotateX(720deg);
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.5s ease-out forwards;
+}
+
+.animate-slide-out {
+  animation: slide-out 0.3s ease-in forwards;
+}
+
+@keyframes highlight-row {
+  0% {
+    background-color: rgba(185, 28, 28, 0.3);
+    box-shadow: 0 0 20px rgba(185, 28, 28, 0.5);
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: none;
+  }
+}
+
+.animate-highlight {
+  animation: highlight-row 1.5s ease-out forwards;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #B8A1E0 transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #B8A1E0/80;
+  border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #B8A1E0/80;
+}
+
+.layout-wrapper {
+  @apply mx-auto md:max-w-[1440px];
+}

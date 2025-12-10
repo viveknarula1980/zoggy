@@ -1,0 +1,13 @@
+G2_symbol_2.png
+size:253,143
+filter:Linear,Linear
+pma:true
+scale:0.25
+explosion
+bounds:0,0,167,143
+offsets:0,0,167,152
+im2
+bounds:169,46,84,97
+im2_gl_1
+bounds:169,29,18,15
+offsets:1,1,19,16

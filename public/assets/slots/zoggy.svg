@@ -1,0 +1,19 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="zoggyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6c5ce7"/>
+      <stop offset="100%" stop-color="#a29bfe"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer circle -->
+  <circle cx="16" cy="16" r="14" fill="url(#zoggyGrad)" stroke="#5f3dc4" stroke-width="2"/>
+  <!-- Inner circle -->
+  <circle cx="16" cy="16" r="11" fill="#8c7ae6"/>
+  <!-- Z letter styling -->
+  <text x="16" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Z</text>
+  <!-- Decorative elements -->
+  <circle cx="10" cy="10" r="1" fill="white" opacity="0.8"/>
+  <circle cx="22" cy="10" r="1" fill="white" opacity="0.8"/>
+  <circle cx="10" cy="22" r="1" fill="white" opacity="0.8"/>
+  <circle cx="22" cy="22" r="1" fill="white" opacity="0.8"/>
+</svg>

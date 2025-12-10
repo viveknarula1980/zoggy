@@ -1,0 +1,106 @@
+{ "skeleton": { "images": "D:/work/Clickable_new/Zoggy_2/spine/images/Zoggi/" },
+"PhotoshopToSpine": { "scale": 1, "padding": 0, "trim": true },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "18", "bone": "root", "attachment": "18" },
+	{ "name": "17", "bone": "root", "attachment": "17" },
+	{ "name": "16", "bone": "root", "attachment": "16" },
+	{ "name": "15", "bone": "root", "attachment": "15" },
+	{ "name": "14", "bone": "root", "attachment": "14" },
+	{ "name": "13", "bone": "root", "attachment": "13" },
+	{ "name": "12", "bone": "root", "attachment": "12" },
+	{ "name": "11", "bone": "root", "attachment": "11" },
+	{ "name": "10", "bone": "root", "attachment": "10" },
+	{ "name": "9", "bone": "root", "attachment": "9" },
+	{ "name": "8", "bone": "root", "attachment": "8" },
+	{ "name": "4", "bone": "root", "attachment": "4" },
+	{ "name": "7", "bone": "root", "attachment": "7" },
+	{ "name": "6", "bone": "root", "attachment": "6" },
+	{ "name": "5", "bone": "root", "attachment": "5" },
+	{ "name": "3", "bone": "root", "attachment": "3" },
+	{ "name": "2", "bone": "root", "attachment": "2" },
+	{ "name": "1", "bone": "root", "attachment": "1" },
+	{ "name": "1_3", "bone": "root", "attachment": "1_3" },
+	{ "name": "1_3_1", "bone": "root", "attachment": "1_3_1" },
+	{ "name": "1_3_2", "bone": "root", "attachment": "1_3_2" },
+	{ "name": "1_1", "bone": "root", "attachment": "1_1" },
+	{ "name": "1_2", "bone": "root", "attachment": "1_2" }
+],
+"skins": {
+	"default": {
+		"18": {
+			"18": { "x": 46, "y": -256.5, "rotation": 0, "width": 68, "height": 141 }
+		},
+		"17": {
+			"17": { "x": -56.5, "y": -267.5, "rotation": 0, "width": 89, "height": 141 }
+		},
+		"16": {
+			"16": { "x": 51, "y": 140.5, "rotation": 0, "width": 246, "height": 375 }
+		},
+		"15": {
+			"15": { "x": 35.5, "y": -274.5, "rotation": 0, "width": 305, "height": 503 }
+		},
+		"14": {
+			"14": { "x": -147, "y": 108.5, "rotation": 0, "width": 180, "height": 367 }
+		},
+		"13": {
+			"13": { "x": 22.5, "y": 119, "rotation": 0, "width": 175, "height": 120 }
+		},
+		"12": {
+			"12": { "x": 183.5, "y": -41, "rotation": 0, "width": 197, "height": 692 }
+		},
+		"11": {
+			"11": { "x": 145, "y": 65, "rotation": 0, "width": 270, "height": 290 }
+		},
+		"10": {
+			"10": { "x": 230, "y": 75.5, "rotation": 0, "width": 160, "height": 389 }
+		},
+		"9": {
+			"9": { "x": -175, "y": -45, "rotation": 0, "width": 122, "height": 68 }
+		},
+		"8": {
+			"8": { "x": -91, "y": -44.5, "rotation": 0, "width": 132, "height": 653 }
+		},
+		"4": {
+			"4": { "x": -158.5, "y": -109, "rotation": 0, "width": 115, "height": 128 }
+		},
+		"7": {
+			"7": { "x": -215.5, "y": -233, "rotation": 0, "width": 185, "height": 520 }
+		},
+		"6": {
+			"6": { "x": 163.5, "y": -113, "rotation": 0, "width": 133, "height": 138 }
+		},
+		"5": {
+			"5": { "x": 182, "y": -89, "rotation": 0, "width": 96, "height": 90 }
+		},
+		"3": {
+			"3": { "x": -69.5, "y": 32.5, "rotation": 0, "width": 89, "height": 123 }
+		},
+		"2": {
+			"2": { "x": -96, "y": 99, "rotation": 0, "width": 138, "height": 170 }
+		},
+		"1": {
+			"1": { "x": -45.5, "y": 61.5, "rotation": 0, "width": 145, "height": 159 }
+		},
+		"1_3": {
+			"1_3": { "x": 32, "y": 329, "rotation": 0, "width": 288, "height": 336 }
+		},
+		"1_3_1": {
+			"1_3_1": { "x": 27.5, "y": 243, "rotation": 0, "width": 193, "height": 150 }
+		},
+		"1_3_2": {
+			"1_3_2": { "x": -21, "y": 309, "rotation": 0, "width": 154, "height": 84 }
+		},
+		"1_1": {
+			"1_1": { "x": 27, "y": 329.5, "rotation": 0, "width": 294, "height": 319 }
+		},
+		"1_2": {
+			"1_2": { "x": 20, "y": 338, "rotation": 0, "width": 276, "height": 286 }
+		}
+	}
+},
+"animations": {
+
+}}

@@ -1,0 +1,28 @@
+{ "skeleton": { "images": "D:/WORK/ClickAble/proj/Plinko/images/" },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "button_light", "bone": "root", "attachment": "button_light" },
+	{ "name": "button_new", "bone": "root", "attachment": "button_new" },
+	{ "name": "eclipse", "bone": "root", "attachment": "eclipse" },
+	{ "name": "hole", "bone": "root", "attachment": "hole" }
+],
+"skins": {
+	"default": {
+		"button_light": {
+			"button_light": { "x": -54.5, "y": -1.5, "width": 81, "height": 45 }
+		},
+		"button_new": {
+			"button_new": { "x": -55.5, "y": -3, "width": 67, "height": 32 }
+		},
+		"eclipse": {
+			"eclipse": { "x": 85.5, "y": -4, "width": 23, "height": 24 }
+		},
+		"hole": {
+			"hole": { "x": 23, "y": 1, "width": 52, "height": 48 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}

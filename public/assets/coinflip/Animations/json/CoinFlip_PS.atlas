@@ -1,0 +1,16 @@
+CoinFlip_PS.png
+size:1855,541
+filter:Linear,Linear
+pma:true
+bronze_bok
+bounds:1619,3,77,536
+coin_bronze
+bounds:2,2,537,537
+coin_gold
+bounds:541,2,537,537
+coin_silver
+bounds:1080,2,537,537
+gold_bok_2
+bounds:1698,3,77,536
+silver_bok
+bounds:1777,4,76,535

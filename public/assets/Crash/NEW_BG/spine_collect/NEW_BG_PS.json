@@ -1,0 +1,56 @@
+{ "skeleton": { "images": "D:/WORK/ClickAble/proj/Crash/NEW_BG/images/" },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "bg4", "bone": "root", "attachment": "bg4" },
+	{ "name": "bg3", "bone": "root", "attachment": "bg3" },
+	{ "name": "bg2", "bone": "root", "attachment": "bg2" },
+	{ "name": "bg1", "bone": "root", "attachment": "bg1" },
+	{ "name": "asteroid", "bone": "root", "attachment": "asteroid" },
+	{ "name": "comet", "bone": "root", "attachment": "comet" },
+	{ "name": "sputnik", "bone": "root", "attachment": "sputnik" },
+	{ "name": "smoke1", "bone": "root", "attachment": "smoke1" },
+	{ "name": "helikopter", "bone": "root", "attachment": "helikopter" },
+	{ "name": "smoke2", "bone": "root", "attachment": "smoke2" },
+	{ "name": "derizhabl", "bone": "root", "attachment": "derizhabl" }
+],
+"skins": {
+	"default": {
+		"bg4": {
+			"bg4": { "x": 3052.5, "y": 0, "width": 1149, "height": 802 }
+		},
+		"bg3": {
+			"bg3": { "x": 2009.5, "y": 0, "width": 1107, "height": 802 }
+		},
+		"bg2": {
+			"bg2": { "x": 975.5, "y": 0, "width": 1191, "height": 802 }
+		},
+		"bg1": {
+			"bg1": { "x": 3.5, "y": 0, "width": 949, "height": 802 }
+		},
+		"asteroid": {
+			"asteroid": { "x": 2933.5, "y": 282.5, "width": 117, "height": 127 }
+		},
+		"comet": {
+			"comet": { "x": 2412, "y": 165.5, "width": 278, "height": 227 }
+		},
+		"sputnik": {
+			"sputnik": { "x": 2150, "y": 330, "width": 176, "height": 82 }
+		},
+		"smoke1": {
+			"smoke1": { "x": 1704, "y": -123, "width": 484, "height": 350 }
+		},
+		"helikopter": {
+			"helikopter": { "x": 965, "y": -23, "width": 298, "height": 248 }
+		},
+		"smoke2": {
+			"smoke2": { "x": 299.5, "y": -217, "width": 433, "height": 368 }
+		},
+		"derizhabl": {
+			"derizhabl": { "x": 34.5, "y": 100.5, "width": 449, "height": 375 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}

@@ -1,0 +1,11 @@
+G2_slot.png
+size:144,97
+filter:Linear,Linear
+pma:true
+scale:0.25
+im0
+bounds:0,0,97,97
+im00
+bounds:99,51,45,46
+spark2
+bounds:99,8,41,41

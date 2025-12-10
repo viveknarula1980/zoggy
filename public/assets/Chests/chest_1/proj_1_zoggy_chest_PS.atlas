@@ -1,0 +1,22 @@
+proj_1_zoggy_chest_PS.png
+size:1832,621
+filter:Linear,Linear
+pma:true
+Circle_rays_16
+bounds:1588,175,177,166
+Layer 1
+bounds:670,11,628,249
+Layer 2
+bounds:1588,343,242,276
+Layer 3 copy
+bounds:1300,14,605,286
+rotate:90
+Layer 4
+bounds:670,262,620,357
+Layer 5
+bounds:1724,50,75,123
+glow2
+bounds:2,2,617,666
+rotate:90
+triangle
+bounds:1588,42,134,131

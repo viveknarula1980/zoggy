@@ -1,0 +1,58 @@
+{ "skeleton": { "images": "D:/work/Clickable_new/Zoggy_2/spine/images/" },
+"PhotoshopToSpine": { "scale": 1, "padding": 0, "trim": true },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "Bg2_12", "bone": "root", "attachment": "Bg2_12" },
+	{ "name": "Bg2_11", "bone": "root", "attachment": "Bg2_11" },
+	{ "name": "Bg2_9", "bone": "root", "attachment": "Bg2_9" },
+	{ "name": "Bg2_8", "bone": "root", "attachment": "Bg2_8" },
+	{ "name": "Bg2_7", "bone": "root", "attachment": "Bg2_7" },
+	{ "name": "Bg2_6", "bone": "root", "attachment": "Bg2_6" },
+	{ "name": "Bg2_5", "bone": "root", "attachment": "Bg2_5" },
+	{ "name": "Bg2_4", "bone": "root", "attachment": "Bg2_4" },
+	{ "name": "Bg2_3", "bone": "root", "attachment": "Bg2_3" },
+	{ "name": "Bg2_2", "bone": "root", "attachment": "Bg2_2" },
+	{ "name": "Bg2_1", "bone": "root", "attachment": "Bg2_1" }
+],
+"skins": {
+	"default": {
+		"Bg2_12": {
+			"Bg2_12": { "x": 675.5, "y": -449, "rotation": 0, "width": 1347, "height": 898 }
+		},
+		"Bg2_11": {
+			"Bg2_11": { "x": 70, "y": -160, "rotation": 0, "width": 138, "height": 320 }
+		},
+		"Bg2_9": {
+			"Bg2_9": { "x": 145.5, "y": -361.5, "rotation": 0, "width": 287, "height": 205 }
+		},
+		"Bg2_8": {
+			"Bg2_8": { "x": 597, "y": -178.5, "rotation": 0, "width": 42, "height": 89 }
+		},
+		"Bg2_7": {
+			"Bg2_7": { "x": 696.5, "y": -64, "rotation": 0, "width": 151, "height": 220 }
+		},
+		"Bg2_6": {
+			"Bg2_6": { "x": 174, "y": -85.5, "rotation": 0, "width": 90, "height": 133 }
+		},
+		"Bg2_5": {
+			"Bg2_5": { "x": 393.5, "y": -59, "rotation": 0, "width": 149, "height": 206 }
+		},
+		"Bg2_4": {
+			"Bg2_4": { "x": 196.5, "y": -753, "rotation": 0, "width": 387, "height": 290 }
+		},
+		"Bg2_3": {
+			"Bg2_3": { "x": 128.5, "y": -642, "rotation": 0, "width": 53, "height": 82 }
+		},
+		"Bg2_2": {
+			"Bg2_2": { "x": 212, "y": -682.5, "rotation": 0, "width": 200, "height": 125 }
+		},
+		"Bg2_1": {
+			"Bg2_1": { "x": 56, "y": -596.5, "rotation": 0, "width": 78, "height": 221 }
+		}
+	}
+},
+"animations": {
+
+}}

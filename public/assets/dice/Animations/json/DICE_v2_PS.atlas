@@ -1,0 +1,16 @@
+DICE_v2_PS.png
+size:1097,518
+filter:Linear,Linear
+pma:true
+coin
+bounds:516,8,183,183
+fine-smoke-4
+bounds:839,260,256,256
+flame_II3.png
+bounds:839,2,256,256
+glowFire
+bounds:701,63,128,128
+light
+bounds:516,193,321,323
+star0
+bounds:2,4,512,512

@@ -1,0 +1,36 @@
+{ "skeleton": { "images": "D:/WORK/ClickAble/proj/CoinFlip/images/" },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "coin_bronze", "bone": "root", "attachment": "coin_bronze" },
+	{ "name": "coin_gold", "bone": "root", "attachment": "coin_gold" },
+	{ "name": "coin_silver", "bone": "root", "attachment": "coin_silver" },
+	{ "name": "bronze_bok", "bone": "root", "attachment": "bronze_bok" },
+	{ "name": "gold_bok", "bone": "root", "attachment": "gold_bok" },
+	{ "name": "silver_bok", "bone": "root", "attachment": "silver_bok" }
+],
+"skins": {
+	"default": {
+		"coin_bronze": {
+			"coin_bronze": { "x": 0.5, "y": -3.5, "width": 537, "height": 537 }
+		},
+		"coin_gold": {
+			"coin_gold": { "x": 0.5, "y": -3.5, "width": 537, "height": 537 }
+		},
+		"coin_silver": {
+			"coin_silver": { "x": 1.5, "y": -4.5, "width": 537, "height": 537 }
+		},
+		"bronze_bok": {
+			"bronze_bok": { "x": -342.5, "y": -5, "width": 77, "height": 536 }
+		},
+		"gold_bok": {
+			"gold_bok": { "x": -427, "y": -7.5, "width": 282, "height": 553 }
+		},
+		"silver_bok": {
+			"silver_bok": { "x": -343, "y": -5.5, "width": 76, "height": 535 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}
