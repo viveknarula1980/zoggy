@@ -21,7 +21,8 @@ const ClassicsPage = () => {
     useEffect(() => {
         const fetchGames = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/admin/games`);
+                // Use Next.js API proxy to avoid CORS
+                const res = await fetch('/api/admin/games');
                 const data = await res.json();
 
 

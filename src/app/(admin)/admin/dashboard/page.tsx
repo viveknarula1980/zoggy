@@ -50,10 +50,17 @@ export default function AdminDashboard() {
     async function fetchAll() {
       try {
         const base =
-          process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "";
+          process.env.NEXT_PUBLIC_BACKEND_URL ||
+          process.env.NEXT_PUBLIC_API_URL ||
+          "";
+        const baseUrl = base.replace(/\/$/, "");
+        // Use proxy for games in browser, direct URL on server
+        const gamesUrl = typeof window !== "undefined"
+          ? "/api/admin/games"
+          : `${baseUrl}/admin/games`;
         const [statsRes, gamesRes] = await Promise.all([
-          fetch(`${base}/admin/stats`, { cache: "no-store" }),
-          fetch(`${base}/admin/games`, { cache: "no-store" }),
+          fetch(`${baseUrl}/admin/stats`, { cache: "no-store" }),
+          fetch(gamesUrl, { cache: "no-store" }),
         ]);
 
         if (statsRes.ok) {

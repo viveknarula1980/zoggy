@@ -47,6 +47,12 @@ export interface Transaction {
 
 // ====== Internal helpers (no API surface changes) ======
 function apiBase(): string {
+  // Use proxy in browser for leaderboard endpoints, direct URL on server
+  if (typeof window !== "undefined") {
+    // Browser: use Next.js API proxy for leaderboard
+    return "/api/leaderboard";
+  }
+  // Server-side: use direct backend URL
   const v =
     (typeof process !== "undefined" && (process as any)?.env?.NEXT_PUBLIC_BACKEND_URL) ||
     (typeof process !== "undefined" && (process as any)?.env?.NEXT_PUBLIC_API_URL) ||
@@ -403,7 +409,11 @@ let LAST_LEADERBOARD: LeaderboardEntry[] = [];
 
 function ensureLeaderboardLoaded(limit = 10) {
   if (LAST_LEADERBOARD.length) return;
-  const rows = syncGet<TopRow[]>(`${apiBase()}/leaderboard/top?limit=${encodeURIComponent(String(limit))}`);
+  const base = apiBase();
+  const url = typeof window !== "undefined"
+    ? `${base}/top?limit=${encodeURIComponent(String(limit))}`  // Browser: proxy already includes /leaderboard
+    : `${base}/leaderboard/top?limit=${encodeURIComponent(String(limit))}`;  // Server: need full path
+  const rows = syncGet<TopRow[]>(url);
   if (rows && Array.isArray(rows) && rows.length) {
     LAST_LEADERBOARD = rows.map((r) => ({
       rank: r.rank,
@@ -688,7 +698,11 @@ export async function fetchRankSummary(wallet: string): Promise<RankSummary | nu
   let playersCount: number | null = null;
   let currentLevelLabel: string | null = null;
 
-  const me = await fetchJson<any>(`${apiBase()}/leaderboard/me?wallet=${encodeURIComponent(wallet)}`);
+  const base = apiBase();
+  const meUrl = typeof window !== "undefined"
+    ? `${base}/me?wallet=${encodeURIComponent(wallet)}`
+    : `${base}/leaderboard/me?wallet=${encodeURIComponent(wallet)}`;
+  const me = await fetchJson<any>(meUrl);
   if (me) {
     if (typeof me.bestRank === "number") bestRank = me.bestRank;
     if (typeof me.change === "number") change = me.change;
@@ -697,7 +711,11 @@ export async function fetchRankSummary(wallet: string): Promise<RankSummary | nu
   }
 
   if (bestRank == null) {
-    const top = await fetchJson<any[]>(`${apiBase()}/leaderboard/top?limit=100`);
+    const base = apiBase();
+    const topUrl = typeof window !== "undefined"
+      ? `${base}/top?limit=100`
+      : `${base}/leaderboard/top?limit=100`;
+    const top = await fetchJson<any[]>(topUrl);
     if (Array.isArray(top) && top.length) {
       const idx = top.findIndex((r) => r?.wallet === wallet);
       if (idx >= 0) {

@@ -65,11 +65,8 @@ const SectionGames = () => {
     useEffect(() => {
         const fetchGames = async () => {
             try {
-                const backendUrl = 
-                  process.env.NEXT_PUBLIC_BACKEND_URL ||
-                  process.env.NEXT_PUBLIC_API_URL ||
-                  "";
-                const res = await fetch(`${backendUrl}/admin/games`);
+                // Use Next.js API proxy to avoid CORS
+                const res = await fetch('/api/admin/games');
                 const data = await res.json();
 
 

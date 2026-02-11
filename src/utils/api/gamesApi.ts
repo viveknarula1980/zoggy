@@ -1,11 +1,19 @@
 // src/utils/api/gamesApi.ts
 import { GameSettings } from "@/components/admin/GameSettingsModal";
 
-const API_BASE_URL = (
-  process.env.NEXT_PUBLIC_BACKEND_URL ||
-  process.env.NEXT_PUBLIC_API_URL ||
-  ""
-).replace(/\/$/, "");
+// Use proxy in browser, direct URL on server
+const getApiBaseUrl = (): string => {
+  if (typeof window !== "undefined") {
+    // Browser: use Next.js API proxy (no /admin/games suffix needed)
+    return "/api/admin/games";
+  }
+  // Server-side: use direct backend URL
+  return (
+    process.env.NEXT_PUBLIC_BACKEND_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
+    ""
+  ).replace(/\/$/, "");
+};
 
 /** Backend shape returned by GET /admin/games */
 type BackendGame = {
@@ -160,7 +168,11 @@ async function toServerPatch(usdtUpdates: Partial<GameSettings>) {
 export class GamesApiService {
   /** Fetch all game settings (min/max returned in USDT; everything else unchanged) */
   static async fetchGames(): Promise<GameSettings[]> {
-    const res = await fetch(`${API_BASE_URL}/admin/games`, { cache: "no-store" });
+    const baseUrl = getApiBaseUrl();
+    const url = typeof window !== "undefined" 
+      ? baseUrl  // Browser: proxy already includes /admin/games
+      : `${baseUrl}/admin/games`;  // Server: need full path
+    const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error(`Failed to fetch games (${res.status})`);
     const data: BackendGame[] = await res.json();
 
@@ -174,7 +186,11 @@ export class GamesApiService {
     updates: Partial<GameSettings>
   ): Promise<GameSettings> {
     const body = await toServerPatch(updates);
-    const res = await fetch(`${API_BASE_URL}/admin/games/${gameId}`, {
+    const baseUrl = getApiBaseUrl();
+    const url = typeof window !== "undefined"
+      ? `${baseUrl}/${gameId}`  // Browser: proxy already includes /admin/games
+      : `${baseUrl}/admin/games/${gameId}`;  // Server: need full path
+    const res = await fetch(url, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
@@ -188,7 +204,11 @@ export class GamesApiService {
 
   /** Toggle game enabled */
   static async toggleGameEnabled(gameId: string, _enabled?: boolean): Promise<void> {
-    const res = await fetch(`${API_BASE_URL}/admin/games/${gameId}/toggle-enabled`, {
+    const baseUrl = getApiBaseUrl();
+    const url = typeof window !== "undefined"
+      ? `${baseUrl}/${gameId}/toggle-enabled`
+      : `${baseUrl}/admin/games/${gameId}/toggle-enabled`;
+    const res = await fetch(url, {
       method: "POST",
     });
     if (!res.ok) throw new Error("Failed to toggle game enabled");
@@ -196,7 +216,11 @@ export class GamesApiService {
 
   /** Toggle game running */
   static async toggleGameRunning(gameId: string, _running?: boolean): Promise<void> {
-    const res = await fetch(`${API_BASE_URL}/admin/games/${gameId}/toggle-running`, {
+    const baseUrl = getApiBaseUrl();
+    const url = typeof window !== "undefined"
+      ? `${baseUrl}/${gameId}/toggle-running`
+      : `${baseUrl}/admin/games/${gameId}/toggle-running`;
+    const res = await fetch(url, {
       method: "POST",
     });
     if (!res.ok) throw new Error("Failed to toggle game running");
