@@ -141,6 +141,10 @@ const WS_URL = getWsUrl();
 const ENABLE_FAKE_FEED = process.env.NEXT_PUBLIC_ENABLE_FAKE_FEED !== "0"; // default on
 const ENABLE_REAL_WINS = process.env.NEXT_PUBLIC_ENABLE_REAL_WINS !== "0"; // default on
 
+// Error throttling to avoid log spam
+const errorCounts = new Map<string, number>();
+const MAX_ERROR_LOGS = 3; // Log first 3 errors, then suppress
+
 // === Jackpot rule (hard-coded as requested) ===
 const JACKPOT_MIN_MULT = 10;
 
@@ -591,30 +595,48 @@ function handleRealWinsEvent(ev: any) {
 
 /** Wire handlers for a /fake-feed bot simulator socket */
 function wireFakeFeed(sock: Socket) {
-  sock.on("connect", () => recomputeConnected());
+  sock.on("connect", () => {
+    // Reset error count on successful connection
+    errorCounts.delete("fake-feed");
+    recomputeConnected();
+  });
   sock.on("disconnect", () => recomputeConnected());
   sock.on("connect_error", (err) => {
     const errMsg = err?.message || String(err);
     const errType = err?.type || "";
+    const errorKey = "fake-feed";
+    const count = (errorCounts.get(errorKey) || 0) + 1;
+    errorCounts.set(errorKey, count);
     
-    // Check for CORS-related errors
-    if (errMsg.includes("CORS") || errMsg.includes("xhr poll error") || errMsg.includes("polling")) {
-      console.error(
-        `[fake-feed] Connection failed due to CORS. ` +
-        `The backend at ${WS_URL} needs to allow CORS for Socket.IO endpoints. ` +
-        `Error: ${errMsg}`
-      );
-    } else if (errMsg.includes("websocket") || errType === "TransportError") {
-      console.error(
-        `[fake-feed] WebSocket connection failed to ${WS_URL}/fake-feed. ` +
-        `Possible causes: ` +
-        `1) Backend Socket.IO server not running or not accessible, ` +
-        `2) Firewall blocking WebSocket connections, ` +
-        `3) Backend not configured for Socket.IO. ` +
-        `Error: ${errMsg} (type: ${errType})`
-      );
-    } else {
-      console.error(`[fake-feed] connect_error:`, errMsg, err);
+    // Only log first few errors to avoid spam
+    if (count <= MAX_ERROR_LOGS) {
+      // Check for CORS-related errors
+      if (errMsg.includes("CORS") || errMsg.includes("xhr poll error") || errMsg.includes("polling")) {
+        console.error(
+          `[fake-feed] Connection failed due to CORS. ` +
+          `The backend at ${WS_URL} needs to allow CORS for Socket.IO endpoints. ` +
+          `Error: ${errMsg}`
+        );
+      } else if (errMsg.includes("websocket") || errType === "TransportError") {
+        console.error(
+          `[fake-feed] WebSocket connection failed to ${WS_URL}/fake-feed. ` +
+          `Possible causes: ` +
+          `1) Backend Socket.IO server not running or not accessible, ` +
+          `2) Firewall blocking WebSocket connections, ` +
+          `3) Backend not configured for Socket.IO. ` +
+          `Error: ${errMsg} (type: ${errType})`
+        );
+      } else {
+        console.error(`[fake-feed] connect_error:`, errMsg, err);
+      }
+      
+      if (count === MAX_ERROR_LOGS) {
+        console.warn(
+          `[fake-feed] Suppressing further connection errors. ` +
+          `Socket.IO will continue attempting to reconnect in the background. ` +
+          `Fix the backend connectivity issue to resolve.`
+        );
+      }
     }
   });
 
@@ -853,6 +875,8 @@ function wireFakeFeed(sock: Socket) {
 /** Wire handlers for a wins feed socket (real players) */
 function wireRealWins(sock: Socket, label: string) {
   sock.on("connect", () => {
+    // Reset error count on successful connection
+    errorCounts.delete(`wins-${label}`);
     recomputeConnected();
     // ask server for a snapshot if it auto-emits on connect, you'll receive wins:recent
   });
@@ -860,26 +884,40 @@ function wireRealWins(sock: Socket, label: string) {
   sock.on("connect_error", (err) => {
     const errMsg = err?.message || String(err);
     const errType = err?.type || "";
+    const errorKey = `wins-${label}`;
+    const count = (errorCounts.get(errorKey) || 0) + 1;
+    errorCounts.set(errorKey, count);
     
-    // Check for CORS-related errors
-    if (errMsg.includes("CORS") || errMsg.includes("xhr poll error") || errMsg.includes("polling")) {
-      console.error(
-        `[wins ${label}] Connection failed due to CORS. ` +
-        `The backend at ${WS_URL} needs to allow CORS for Socket.IO endpoints. ` +
-        `Error: ${errMsg}`
-      );
-    } else if (errMsg.includes("websocket") || errType === "TransportError") {
-      const endpoint = label === "root" ? WS_URL : `${WS_URL}/wins`;
-      console.error(
-        `[wins ${label}] WebSocket connection failed to ${endpoint}. ` +
-        `Possible causes: ` +
-        `1) Backend Socket.IO server not running or not accessible, ` +
-        `2) Firewall blocking WebSocket connections, ` +
-        `3) Backend not configured for Socket.IO. ` +
-        `Error: ${errMsg} (type: ${errType})`
-      );
-    } else {
-      console.error(`[wins ${label}] connect_error:`, errMsg, err);
+    // Only log first few errors to avoid spam
+    if (count <= MAX_ERROR_LOGS) {
+      // Check for CORS-related errors
+      if (errMsg.includes("CORS") || errMsg.includes("xhr poll error") || errMsg.includes("polling")) {
+        console.error(
+          `[wins ${label}] Connection failed due to CORS. ` +
+          `The backend at ${WS_URL} needs to allow CORS for Socket.IO endpoints. ` +
+          `Error: ${errMsg}`
+        );
+      } else if (errMsg.includes("websocket") || errType === "TransportError") {
+        const endpoint = label === "root" ? WS_URL : `${WS_URL}/wins`;
+        console.error(
+          `[wins ${label}] WebSocket connection failed to ${endpoint}. ` +
+          `Possible causes: ` +
+          `1) Backend Socket.IO server not running or not accessible, ` +
+          `2) Firewall blocking WebSocket connections, ` +
+          `3) Backend not configured for Socket.IO. ` +
+          `Error: ${errMsg} (type: ${errType})`
+        );
+      } else {
+        console.error(`[wins ${label}] connect_error:`, errMsg, err);
+      }
+      
+      if (count === MAX_ERROR_LOGS) {
+        console.warn(
+          `[wins ${label}] Suppressing further connection errors. ` +
+          `Socket.IO will continue attempting to reconnect in the background. ` +
+          `Fix the backend connectivity issue to resolve.`
+        );
+      }
     }
   });
 

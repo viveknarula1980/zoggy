@@ -47,14 +47,26 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   async function login(username: string, password: string) {
     setIsLoading(true);
     try {
-      const base = 
-        process.env.NEXT_PUBLIC_BACKEND_URL ||
-        process.env.NEXT_PUBLIC_API_URL ||
-        '';
-      const res = await fetch(`${base.replace(/\/$/, '')}/admin/login`, {
+      // Use Next.js API proxy to avoid CORS issues in browser
+      // Server-side can use direct backend URL if needed
+      const useProxy = typeof window !== 'undefined';
+      
+      let url: string;
+      if (useProxy) {
+        url = '/api/admin/login';
+      } else {
+        const base = 
+          process.env.NEXT_PUBLIC_BACKEND_URL ||
+          process.env.NEXT_PUBLIC_API_URL ||
+          '';
+        url = `${base.replace(/\/$/, '')}/admin/login`;
+      }
+      
+      const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
+        credentials: 'include',
       });
 
       if (!res.ok) {
@@ -87,13 +99,42 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }
 
   async function adminFetch<T = any>(path: string, opts: RequestInit = {}): Promise<T> {
-    const base = process.env.NEXT_PUBLIC_API_URL || '';
-    const url = path.startsWith('http') ? path : `${base.replace(/\/$/, '')}${path}`;
+    // Use Next.js API proxy to avoid CORS issues in browser
+    // Server-side can use direct backend URL if needed
+    const useProxy = typeof window !== 'undefined';
+    
+    let url: string;
+    if (useProxy) {
+      // Use proxy route for admin endpoints
+      // Path should start with /admin/, proxy route expects the path after /admin/
+      if (path.startsWith('/admin/')) {
+        // Remove /admin prefix, proxy route will add it back
+        const cleanPath = path.slice(7); // Remove '/admin/'
+        url = `/api/admin/${cleanPath}`;
+      } else if (path.startsWith('/')) {
+        // Path starts with / but not /admin/, assume it's an admin endpoint
+        url = `/api/admin${path}`;
+      } else {
+        // Relative path, assume it's an admin endpoint
+        url = `/api/admin/${path}`;
+      }
+    } else {
+      const base = 
+        process.env.NEXT_PUBLIC_BACKEND_URL ||
+        process.env.NEXT_PUBLIC_API_URL ||
+        '';
+      url = path.startsWith('http') ? path : `${base.replace(/\/$/, '')}${path}`;
+    }
+    
     const headers = new Headers(opts.headers || {});
     if (!headers.has('Content-Type')) headers.set('Content-Type', 'application/json');
     if (token) headers.set('Authorization', `Bearer ${token}`);
 
-    const res = await fetch(url, { ...opts, headers });
+    const res = await fetch(url, { 
+      ...opts, 
+      headers,
+      credentials: 'include',
+    });
     const text = await res.text().catch(() => '');
     let body: any = text;
     try { body = text ? JSON.parse(text) : text; } catch {}
