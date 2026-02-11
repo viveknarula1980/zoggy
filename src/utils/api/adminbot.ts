@@ -595,6 +595,8 @@ function wireFakeFeed(sock: Socket) {
   sock.on("disconnect", () => recomputeConnected());
   sock.on("connect_error", (err) => {
     const errMsg = err?.message || String(err);
+    const errType = err?.type || "";
+    
     // Check for CORS-related errors
     if (errMsg.includes("CORS") || errMsg.includes("xhr poll error") || errMsg.includes("polling")) {
       console.error(
@@ -602,8 +604,17 @@ function wireFakeFeed(sock: Socket) {
         `The backend at ${WS_URL} needs to allow CORS for Socket.IO endpoints. ` +
         `Error: ${errMsg}`
       );
+    } else if (errMsg.includes("websocket") || errType === "TransportError") {
+      console.error(
+        `[fake-feed] WebSocket connection failed to ${WS_URL}/fake-feed. ` +
+        `Possible causes: ` +
+        `1) Backend Socket.IO server not running or not accessible, ` +
+        `2) Firewall blocking WebSocket connections, ` +
+        `3) Backend not configured for Socket.IO. ` +
+        `Error: ${errMsg} (type: ${errType})`
+      );
     } else {
-      console.error("[fake-feed] connect_error:", errMsg);
+      console.error(`[fake-feed] connect_error:`, errMsg, err);
     }
   });
 
@@ -848,6 +859,8 @@ function wireRealWins(sock: Socket, label: string) {
   sock.on("disconnect", () => recomputeConnected());
   sock.on("connect_error", (err) => {
     const errMsg = err?.message || String(err);
+    const errType = err?.type || "";
+    
     // Check for CORS-related errors
     if (errMsg.includes("CORS") || errMsg.includes("xhr poll error") || errMsg.includes("polling")) {
       console.error(
@@ -855,8 +868,18 @@ function wireRealWins(sock: Socket, label: string) {
         `The backend at ${WS_URL} needs to allow CORS for Socket.IO endpoints. ` +
         `Error: ${errMsg}`
       );
+    } else if (errMsg.includes("websocket") || errType === "TransportError") {
+      const endpoint = label === "root" ? WS_URL : `${WS_URL}/wins`;
+      console.error(
+        `[wins ${label}] WebSocket connection failed to ${endpoint}. ` +
+        `Possible causes: ` +
+        `1) Backend Socket.IO server not running or not accessible, ` +
+        `2) Firewall blocking WebSocket connections, ` +
+        `3) Backend not configured for Socket.IO. ` +
+        `Error: ${errMsg} (type: ${errType})`
+      );
     } else {
-      console.error(`[wins ${label}] connect_error:`, errMsg);
+      console.error(`[wins ${label}] connect_error:`, errMsg, err);
     }
   });
 
