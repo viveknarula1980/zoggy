@@ -76,7 +76,46 @@ const HTTP_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL ||
   process.env.NEXT_PUBLIC_API_URL ||
   "";
-const WS_URL = process.env.NEXT_PUBLIC_BACKEND_WS || HTTP_URL;
+
+// Ensure HTTP_URL is always absolute (not relative)
+const getHttpUrl = (): string => {
+  const url = HTTP_URL.trim();
+  if (!url) {
+    const errorMsg = 
+      "[adminbot] ERROR: Backend URL not configured! " +
+      "Set NEXT_PUBLIC_BACKEND_URL or NEXT_PUBLIC_BACKEND_HTTP in your environment variables. " +
+      "Current env values: " +
+      `NEXT_PUBLIC_BACKEND_HTTP=${process.env.NEXT_PUBLIC_BACKEND_HTTP || "undefined"}, ` +
+      `NEXT_PUBLIC_BACKEND_URL=${process.env.NEXT_PUBLIC_BACKEND_URL || "undefined"}, ` +
+      `NEXT_PUBLIC_API_URL=${process.env.NEXT_PUBLIC_API_URL || "undefined"}`;
+    console.error(errorMsg);
+    // In production, throw error to prevent silent failures
+    if (typeof window !== "undefined") {
+      console.error("All API requests will fail until backend URL is configured!");
+    }
+    return "";
+  }
+  // If URL doesn't start with http:// or https://, it's invalid
+  if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    console.error(
+      `[adminbot] ERROR: Invalid backend URL format: "${url}". ` +
+      "URL must start with http:// or https://"
+    );
+    return "";
+  }
+  return url.replace(/\/+$/, ""); // Remove trailing slashes
+};
+
+const WS_URL = process.env.NEXT_PUBLIC_BACKEND_WS || (() => {
+  const url = getHttpUrl();
+  // Convert http:// to ws:// and https:// to wss:// for WebSocket
+  if (url.startsWith("https://")) {
+    return url.replace("https://", "wss://");
+  } else if (url.startsWith("http://")) {
+    return url.replace("http://", "ws://");
+  }
+  return url;
+})();
 
 // Optional envs to fine-tune connections
 const ENABLE_FAKE_FEED = process.env.NEXT_PUBLIC_ENABLE_FAKE_FEED !== "0"; // default on
@@ -179,7 +218,18 @@ const clientToServerConfig = (c: BotConfig, existing?: ServerConfig): Partial<Se
 
 /** ========== HTTP helpers ========== */
 async function jsonFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${HTTP_URL}${path}`, {
+  const baseUrl = getHttpUrl();
+  if (!baseUrl) {
+    throw new Error(
+      "Backend URL not configured. Set NEXT_PUBLIC_BACKEND_URL environment variable."
+    );
+  }
+  
+  // Ensure path starts with /
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  const fullUrl = `${baseUrl}${normalizedPath}`;
+  
+  const res = await fetch(fullUrl, {
     ...init,
     headers: { "Content-Type": "application/json", ...(init?.headers || {}) },
     credentials: "include",
