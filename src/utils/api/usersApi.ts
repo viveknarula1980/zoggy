@@ -39,7 +39,11 @@ export interface UserStats {
 /** Raw shape coming from the backend (may contain lamports or USDT). */
 type PageRespRaw = { users: any[]; total: number; pages: number };
 
-const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+const API_BASE_URL = (
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  ""
+).replace(/\/$/, "");
 
 /** Fallback price if backend doesn't send a USD-converted value */
 const USD_PER_SOL_FALLBACK = Number(process.env.NEXT_PUBLIC_USD_PER_SOL || 200);

@@ -16,9 +16,10 @@ type MaintCfg = {
 
 async function fetchMaintenance(): Promise<MaintCfg> {
   const apiBase =
+    process.env.NEXT_PUBLIC_BACKEND_URL ||
     process.env.NEXT_PUBLIC_API_URL ||
     process.env.API_URL ||
-    "http://34.63.31.167:4000";
+    "";
 
   try {
     const res = await fetch(`${apiBase}/admin/maintenance`, {

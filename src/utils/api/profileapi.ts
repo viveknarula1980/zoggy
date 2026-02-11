@@ -48,7 +48,6 @@ export interface Transaction {
 // ====== Internal helpers (no API surface changes) ======
 function apiBase(): string {
   const v =
-    (typeof process !== "undefined" && (process as any)?.env?.NEXT_PUBLIC_API_URL) ||
     (typeof process !== "undefined" && (process as any)?.env?.NEXT_PUBLIC_BACKEND_URL) ||
     (typeof process !== "undefined" && (process as any)?.env?.NEXT_PUBLIC_API_URL) ||
     "";

@@ -71,7 +71,11 @@ export const mockStats: BotStatsData = {
 };
 
 /** ========== Runtime config ========== */
-const HTTP_URL = process.env.NEXT_PUBLIC_BACKEND_HTTP || "";
+const HTTP_URL = 
+  process.env.NEXT_PUBLIC_BACKEND_HTTP ||
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  "";
 const WS_URL = process.env.NEXT_PUBLIC_BACKEND_WS || HTTP_URL;
 
 // Optional envs to fine-tune connections

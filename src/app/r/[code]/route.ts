@@ -13,7 +13,8 @@ export async function GET(...args: any[]) {
   const code: string = ctx?.params?.code || "";
 
   const apiBase = stripTrailingSlash(
-    (process.env.NEXT_PUBLIC_API_BASE ||
+    (process.env.NEXT_PUBLIC_BACKEND_URL ||
+      process.env.NEXT_PUBLIC_API_BASE ||
       process.env.NEXT_PUBLIC_API_URL ||
       "") as string
   );

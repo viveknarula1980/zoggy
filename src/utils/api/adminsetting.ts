@@ -12,7 +12,10 @@ export function getAdminToken(): string | null {
 }
 
 export async function adminFetch<T = any>(path: string, opts: RequestInit = {}): Promise<T> {
-  const base = process.env.NEXT_PUBLIC_API_URL || ''; // e.g.  or https://api.example.com
+  const base = 
+    process.env.NEXT_PUBLIC_BACKEND_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
+    '';
   const url = path.startsWith('http') ? path : `${base}${path}`;
   const token = getAdminToken();
   const headers = new Headers(opts.headers || {});

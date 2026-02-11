@@ -42,9 +42,9 @@ export async function middleware(req: NextRequest) {
   }
 
   const apiBase =
+    process.env.NEXT_PUBLIC_BACKEND_URL ||
     process.env.NEXT_PUBLIC_API_URL ||
-    process.env.NEXT_PUBLIC_API_URL ||
-    ''; // ✅ FULL PATH FIXED
+    '';
 
   const adminKey = process.env.NEXT_PUBLIC_ADMIN_API_KEY || '';
 

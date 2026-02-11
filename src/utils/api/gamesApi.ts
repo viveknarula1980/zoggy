@@ -1,8 +1,11 @@
 // src/utils/api/gamesApi.ts
 import { GameSettings } from "@/components/admin/GameSettingsModal";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "";
+const API_BASE_URL = (
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  ""
+).replace(/\/$/, "");
 
 /** Backend shape returned by GET /admin/games */
 type BackendGame = {

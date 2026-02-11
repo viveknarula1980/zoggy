@@ -65,7 +65,11 @@ const SectionGames = () => {
     useEffect(() => {
         const fetchGames = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/admin/games`);
+                const backendUrl = 
+                  process.env.NEXT_PUBLIC_BACKEND_URL ||
+                  process.env.NEXT_PUBLIC_API_URL ||
+                  "";
+                const res = await fetch(`${backendUrl}/admin/games`);
                 const data = await res.json();
 
 

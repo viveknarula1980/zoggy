@@ -22,8 +22,13 @@ import ManualVerification from "@/components/proof/ManualVerification";
 import { verifyDice } from "@/utils/provablyFair";
 import { useWallet } from "@solana/wallet-adapter-react";
 
-/** If you host API on another origin, set NEXT_PUBLIC_API_BASE=https://api.yourhost.com */
-const API_BASE = (process.env.NEXT_PUBLIC_API_BASE || "").replace(/\/$/, "");
+/** If you host API on another origin, set NEXT_PUBLIC_BACKEND_URL or NEXT_PUBLIC_API_BASE */
+const API_BASE = (
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.NEXT_PUBLIC_API_BASE ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  ""
+).replace(/\/$/, "");
 
 type GameType = "dice" | "crash" | "mines" | "slots" | "plinko" | "coinflip";
 type GameFilter = "all" | GameType;

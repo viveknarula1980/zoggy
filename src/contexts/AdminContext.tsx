@@ -47,7 +47,10 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   async function login(username: string, password: string) {
     setIsLoading(true);
     try {
-      const base = process.env.NEXT_PUBLIC_API_URL || '';
+      const base = 
+        process.env.NEXT_PUBLIC_BACKEND_URL ||
+        process.env.NEXT_PUBLIC_API_URL ||
+        '';
       const res = await fetch(`${base.replace(/\/$/, '')}/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

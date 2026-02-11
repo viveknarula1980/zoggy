@@ -123,10 +123,14 @@ export interface ClaimCommissionResponse {
 
 // ----------------- internal helpers -----------------
 
-const API_BASE =
-  (typeof process !== "undefined" &&
-    (process.env.NEXT_PUBLIC_API_BASE || process.env.NEXT_PUBLIC_API_URL)?.replace(/\/$/, "")) ||
-  "";
+const API_BASE = (
+  typeof process !== "undefined" &&
+  (
+    process.env.NEXT_PUBLIC_BACKEND_URL ||
+    process.env.NEXT_PUBLIC_API_BASE ||
+    process.env.NEXT_PUBLIC_API_URL
+  )?.replace(/\/$/, "")
+) || "";
 
 // try to read wallet directly from injected providers
 function getWalletFromWindow(): string | null {

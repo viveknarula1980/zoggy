@@ -72,7 +72,11 @@ export interface RewardTier {
 /*  Config URLs                                                               */
 /* -------------------------------------------------------------------------- */
 
-const API_BASE_URL = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
+const API_BASE_URL = (
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  ""
+).replace(/\/$/, "");
 const ASSET_BASE_URL = (process.env.NEXT_PUBLIC_ASSET_BASE_URL || API_BASE_URL).replace(/\/$/, "");
 
 /* -------------------------------------------------------------------------- */

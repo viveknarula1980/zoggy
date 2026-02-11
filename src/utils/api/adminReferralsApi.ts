@@ -135,7 +135,9 @@ export interface ActivityStats {
 
 // ================== HTTP helpers ==================
 const ORIGIN =
-  (typeof process !== "undefined" && (process.env as any)?.NEXT_PUBLIC_API_URL?.replace(/\/$/, "")) ||
+  (typeof process !== "undefined" && 
+    ((process.env as any)?.NEXT_PUBLIC_BACKEND_URL ||
+     (process.env as any)?.NEXT_PUBLIC_API_URL)?.replace(/\/$/, "")) ||
   ""; // empty = same origin
 const BASE = `${ORIGIN}/api/admin/referrals`;
 

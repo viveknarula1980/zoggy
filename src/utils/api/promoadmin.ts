@@ -33,7 +33,10 @@ export type PromoStatsData = {
   conversionRate: number;
 };
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || ""; // e.g. "" or "https://api.example.com"
+const API_BASE = 
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  "";
 const PREFIX = `${API_BASE}/promo/admin`;
 
 // helper to include auth token if present

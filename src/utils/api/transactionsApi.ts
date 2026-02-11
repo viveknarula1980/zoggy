@@ -29,7 +29,11 @@ export interface TransactionFilters {
     search?: string;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_ADMIN_URL;
+const API_URL = 
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  process.env.NEXT_PUBLIC_ADMIN_URL ||
+  "";
 
 export const TransactionsApiService = {
     async fetchTransactions(page = 1, limit = 20, filters: Record<string, string> = {}) {

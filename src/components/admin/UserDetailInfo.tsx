@@ -26,7 +26,12 @@ type FakeStatus = {
     withdrawalsEnabled: boolean;
 };
 
-const API_BASE_RAW = (process.env.NEXT_PUBLIC_API_BASE || "http://34.63.31.167:4000").replace(/\/$/, "");
+const API_BASE_RAW = (
+  process.env.NEXT_PUBLIC_API_BASE ||
+  process.env.NEXT_PUBLIC_BACKEND_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  ""
+).replace(/\/$/, "");
 
 export default function UserDetailInfo({ user, onStatusUpdate, updating }: UserDetailInfoProps) {
     const [copySuccess, setCopySuccess] = useState(false);
