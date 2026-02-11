@@ -106,16 +106,36 @@ const getHttpUrl = (): string => {
   return url.replace(/\/+$/, ""); // Remove trailing slashes
 };
 
-const WS_URL = process.env.NEXT_PUBLIC_BACKEND_WS || (() => {
-  const url = getHttpUrl();
-  // Convert http:// to ws:// and https:// to wss:// for WebSocket
-  if (url.startsWith("https://")) {
-    return url.replace("https://", "wss://");
-  } else if (url.startsWith("http://")) {
-    return url.replace("http://", "ws://");
+const getWsUrl = (): string => {
+  // Check for explicit WebSocket URL first
+  if (process.env.NEXT_PUBLIC_BACKEND_WS) {
+    const wsUrl = process.env.NEXT_PUBLIC_BACKEND_WS.trim();
+    if (wsUrl.startsWith("ws://") || wsUrl.startsWith("wss://")) {
+      return wsUrl.replace(/\/+$/, ""); // Remove trailing slashes
+    }
   }
-  return url;
-})();
+  
+  // Fallback: convert HTTP URL to WebSocket URL
+  const httpUrl = getHttpUrl();
+  if (!httpUrl) {
+    console.error(
+      "[adminbot] ERROR: WebSocket URL not configured! " +
+      "Set NEXT_PUBLIC_BACKEND_WS or NEXT_PUBLIC_BACKEND_URL environment variable."
+    );
+    return "";
+  }
+  
+  // Convert http:// to ws:// and https:// to wss:// for WebSocket
+  if (httpUrl.startsWith("https://")) {
+    return httpUrl.replace("https://", "wss://");
+  } else if (httpUrl.startsWith("http://")) {
+    return httpUrl.replace("http://", "ws://");
+  }
+  
+  return httpUrl;
+};
+
+const WS_URL = getWsUrl();
 
 // Optional envs to fine-tune connections
 const ENABLE_FAKE_FEED = process.env.NEXT_PUBLIC_ENABLE_FAKE_FEED !== "0"; // default on
@@ -839,19 +859,58 @@ function wireRealWins(sock: Socket, label: string) {
 /** Ensure all sockets are connected (idempotent) */
 function ensureSocket() {
   if (typeof window === "undefined") return;
+  
+  if (!WS_URL) {
+    console.warn("[adminbot] WebSocket URL not configured, skipping socket connections");
+    return;
+  }
+  
   if (!fakeSocket && ENABLE_FAKE_FEED) {
-    fakeSocket = io(`${WS_URL}/fake-feed`, { transports: ["websocket"], withCredentials: true });
-    wireFakeFeed(fakeSocket);
+    try {
+      fakeSocket = io(`${WS_URL}/fake-feed`, { 
+        transports: ["websocket"], 
+        withCredentials: true,
+        reconnection: true,
+        reconnectionDelay: 1000,
+        reconnectionAttempts: 5,
+        timeout: 10000,
+      });
+      wireFakeFeed(fakeSocket);
+    } catch (err) {
+      console.error("[adminbot] Failed to create fake-feed socket:", err);
+    }
   }
   if (ENABLE_REAL_WINS) {
     if (!winsRoot) {
-      winsRoot = io(`${WS_URL}`, { transports: ["websocket"], withCredentials: true });
-      wireRealWins(winsRoot, "root");
+      try {
+        winsRoot = io(`${WS_URL}`, { 
+          transports: ["websocket"], 
+          withCredentials: true,
+          reconnection: true,
+          reconnectionDelay: 1000,
+          reconnectionAttempts: 5,
+          timeout: 10000,
+        });
+        wireRealWins(winsRoot, "root");
+      } catch (err) {
+        console.error("[adminbot] Failed to create wins root socket:", err);
+      }
     }
     if (!winsNs) {
-      // Some servers mount the feed under /wins – listen to both to be safe.
-      winsNs = io(`${WS_URL}/wins`, { transports: ["websocket"], withCredentials: true });
-      wireRealWins(winsNs, "/wins");
+      try {
+        // Some servers mount the feed under /wins – listen to both to be safe.
+        winsNs = io(`${WS_URL}/wins`, { 
+          transports: ["websocket"], 
+          withCredentials: true,
+          reconnection: true,
+          reconnectionDelay: 1000,
+          reconnectionAttempts: 5,
+          timeout: 10000,
+        });
+        wireRealWins(winsNs, "/wins");
+      } catch (err) {
+        console.error("[adminbot] Failed to create wins namespace socket:", err);
+      }
     }
   }
   recomputeConnected();
