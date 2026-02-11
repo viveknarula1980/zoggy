@@ -47,7 +47,7 @@ const PROGRAM_ID = new PublicKey(
 );
 
 // Base URL (no trailing slash). Socket.IO will use `${API_BASE}/socket.io`
-const API_BASE = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000").replace(
+const API_BASE = (process.env.NEXT_PUBLIC_BACKEND_URL || "http://34.63.31.167:4000").replace(
   /\/+$/,
   ""
 );

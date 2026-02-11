@@ -5,7 +5,7 @@ export async function GET(_req: NextRequest) {
   const apiBase =
     process.env.NEXT_PUBLIC_API_URL ||
     process.env.API_URL ||
-    'http://localhost:4000'; // your Node server base
+    'http://34.63.31.167:4000'; // your Node server base
   const adminKey = process.env.ADMIN_API_KEY || '';
 
   try {
