@@ -85,10 +85,16 @@ async function handleRequest(
 
     const headers: Record<string, string> = {};
     request.headers.forEach((value, key) => {
+      const lowerKey = key.toLowerCase();
+      // Remove browser-specific headers that could cause CORS issues
       if (
-        key.toLowerCase() !== 'host' &&
-        key.toLowerCase() !== 'connection' &&
-        key.toLowerCase() !== 'content-length'
+        lowerKey !== 'host' &&
+        lowerKey !== 'connection' &&
+        lowerKey !== 'content-length' &&
+        lowerKey !== 'origin' &&  // Remove origin to avoid CORS issues
+        lowerKey !== 'referer' &&  // Remove referer
+        lowerKey !== 'user-agent' &&  // Optional: remove user-agent if backend doesn't need it
+        !lowerKey.startsWith('sec-')  // Remove security headers (sec-fetch-*, etc.)
       ) {
         headers[key] = value;
       }

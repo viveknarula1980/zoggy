@@ -29,10 +29,16 @@ export async function POST(request: NextRequest) {
 
     const headers: Record<string, string> = {};
     request.headers.forEach((value, key) => {
+      const lowerKey = key.toLowerCase();
+      // Remove browser-specific headers that could cause CORS issues
       if (
-        key.toLowerCase() !== 'host' &&
-        key.toLowerCase() !== 'connection' &&
-        key.toLowerCase() !== 'content-length'
+        lowerKey !== 'host' &&
+        lowerKey !== 'connection' &&
+        lowerKey !== 'content-length' &&
+        lowerKey !== 'origin' &&  // Remove origin to avoid CORS issues
+        lowerKey !== 'referer' &&  // Remove referer
+        lowerKey !== 'user-agent' &&  // Optional: remove user-agent if backend doesn't need it
+        !lowerKey.startsWith('sec-')  // Remove security headers (sec-fetch-*, etc.)
       ) {
         headers[key] = value;
       }
@@ -53,6 +59,16 @@ export async function POST(request: NextRequest) {
       jsonData = JSON.parse(responseData);
     } catch {
       jsonData = responseData;
+    }
+
+    // Log backend response for debugging
+    if (!backendResponse.ok) {
+      console.error('[API Proxy] Login failed:', {
+        status: backendResponse.status,
+        statusText: backendResponse.statusText,
+        url: `${backendUrl}/admin/login`,
+        response: jsonData,
+      });
     }
 
     return NextResponse.json(jsonData, {

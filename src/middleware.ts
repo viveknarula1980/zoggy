@@ -37,7 +37,8 @@ export async function middleware(req: NextRequest) {
 
   if (pathname.startsWith('/maintenance')) return NextResponse.next();
   if (isAssetPath(pathname)) return NextResponse.next();
-  if (pathname.startsWith('/api/health') || pathname.startsWith('/api/maintenance')) {
+  // Allow all API routes to bypass maintenance mode
+  if (pathname.startsWith('/api/')) {
     return NextResponse.next();
   }
 
