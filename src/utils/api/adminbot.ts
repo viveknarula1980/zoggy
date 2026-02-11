@@ -107,15 +107,21 @@ const getHttpUrl = (): string => {
 };
 
 const getWsUrl = (): string => {
+  // Socket.IO works with HTTP/HTTPS URLs - it handles WebSocket upgrade internally
   // Check for explicit WebSocket URL first
   if (process.env.NEXT_PUBLIC_BACKEND_WS) {
     const wsUrl = process.env.NEXT_PUBLIC_BACKEND_WS.trim();
+    // If it's already ws:// or wss://, use it as-is
     if (wsUrl.startsWith("ws://") || wsUrl.startsWith("wss://")) {
-      return wsUrl.replace(/\/+$/, ""); // Remove trailing slashes
+      return wsUrl.replace(/\/+$/, "");
+    }
+    // If it's http:// or https://, use it as-is (Socket.IO will handle it)
+    if (wsUrl.startsWith("http://") || wsUrl.startsWith("https://")) {
+      return wsUrl.replace(/\/+$/, "");
     }
   }
   
-  // Fallback: convert HTTP URL to WebSocket URL
+  // Fallback: use HTTP URL directly (Socket.IO works with HTTP URLs)
   const httpUrl = getHttpUrl();
   if (!httpUrl) {
     console.error(
@@ -125,13 +131,7 @@ const getWsUrl = (): string => {
     return "";
   }
   
-  // Convert http:// to ws:// and https:// to wss:// for WebSocket
-  if (httpUrl.startsWith("https://")) {
-    return httpUrl.replace("https://", "wss://");
-  } else if (httpUrl.startsWith("http://")) {
-    return httpUrl.replace("http://", "ws://");
-  }
-  
+  // Use HTTP URL directly - Socket.IO will handle WebSocket upgrade
   return httpUrl;
 };
 
