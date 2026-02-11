@@ -867,13 +867,16 @@ function ensureSocket() {
   
   if (!fakeSocket && ENABLE_FAKE_FEED) {
     try {
+      // Use HTTP URL - Socket.IO will handle WebSocket upgrade
+      // Allow polling as fallback if WebSocket fails
       fakeSocket = io(`${WS_URL}/fake-feed`, { 
-        transports: ["websocket"], 
+        transports: ["polling", "websocket"], // Try polling first, then upgrade to websocket
         withCredentials: true,
         reconnection: true,
         reconnectionDelay: 1000,
         reconnectionAttempts: 5,
         timeout: 10000,
+        forceNew: false,
       });
       wireFakeFeed(fakeSocket);
     } catch (err) {
@@ -883,13 +886,15 @@ function ensureSocket() {
   if (ENABLE_REAL_WINS) {
     if (!winsRoot) {
       try {
+        // Use HTTP URL - Socket.IO will handle WebSocket upgrade
         winsRoot = io(`${WS_URL}`, { 
-          transports: ["websocket"], 
+          transports: ["polling", "websocket"], // Try polling first, then upgrade to websocket
           withCredentials: true,
           reconnection: true,
           reconnectionDelay: 1000,
           reconnectionAttempts: 5,
           timeout: 10000,
+          forceNew: false,
         });
         wireRealWins(winsRoot, "root");
       } catch (err) {
@@ -899,13 +904,16 @@ function ensureSocket() {
     if (!winsNs) {
       try {
         // Some servers mount the feed under /wins – listen to both to be safe.
+        // Some servers mount the feed under /wins – listen to both to be safe.
+        // Use HTTP URL - Socket.IO will handle WebSocket upgrade
         winsNs = io(`${WS_URL}/wins`, { 
-          transports: ["websocket"], 
+          transports: ["polling", "websocket"], // Try polling first, then upgrade to websocket
           withCredentials: true,
           reconnection: true,
           reconnectionDelay: 1000,
           reconnectionAttempts: 5,
           timeout: 10000,
+          forceNew: false,
         });
         wireRealWins(winsNs, "/wins");
       } catch (err) {
