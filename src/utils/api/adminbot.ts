@@ -218,16 +218,27 @@ const clientToServerConfig = (c: BotConfig, existing?: ServerConfig): Partial<Se
 
 /** ========== HTTP helpers ========== */
 async function jsonFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const baseUrl = getHttpUrl();
-  if (!baseUrl) {
-    throw new Error(
-      "Backend URL not configured. Set NEXT_PUBLIC_BACKEND_URL environment variable."
-    );
-  }
+  // Use Next.js API proxy to avoid CORS issues
+  // The proxy route is at /api/admin/bot/[...path]
+  const useProxy = typeof window !== "undefined"; // Only use proxy in browser
   
-  // Ensure path starts with /
-  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  const fullUrl = `${baseUrl}${normalizedPath}`;
+  let fullUrl: string;
+  
+  if (useProxy) {
+    // Remove /admin/bot prefix since proxy route already includes it
+    const apiPath = path.replace(/^\/admin\/bot\//, "");
+    fullUrl = `/api/admin/bot/${apiPath}`;
+  } else {
+    // Server-side: use direct backend URL
+    const baseUrl = getHttpUrl();
+    if (!baseUrl) {
+      throw new Error(
+        "Backend URL not configured. Set NEXT_PUBLIC_BACKEND_URL environment variable."
+      );
+    }
+    const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+    fullUrl = `${baseUrl}${normalizedPath}`;
+  }
   
   const res = await fetch(fullUrl, {
     ...init,
