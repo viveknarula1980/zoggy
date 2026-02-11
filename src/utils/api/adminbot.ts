@@ -593,9 +593,19 @@ function handleRealWinsEvent(ev: any) {
 function wireFakeFeed(sock: Socket) {
   sock.on("connect", () => recomputeConnected());
   sock.on("disconnect", () => recomputeConnected());
-  sock.on("connect_error", (err) =>
-    console.error("[fake-feed] connect_error:", err?.message || err)
-  );
+  sock.on("connect_error", (err) => {
+    const errMsg = err?.message || String(err);
+    // Check for CORS-related errors
+    if (errMsg.includes("CORS") || errMsg.includes("xhr poll error") || errMsg.includes("polling")) {
+      console.error(
+        `[fake-feed] Connection failed due to CORS. ` +
+        `The backend at ${WS_URL} needs to allow CORS for Socket.IO endpoints. ` +
+        `Error: ${errMsg}`
+      );
+    } else {
+      console.error("[fake-feed] connect_error:", errMsg);
+    }
+  });
 
   // ALL activity (we synthesize bet + win/lose BotActivity)
   sock.on("activity", (ev: any) => {
@@ -836,9 +846,19 @@ function wireRealWins(sock: Socket, label: string) {
     // ask server for a snapshot if it auto-emits on connect, you'll receive wins:recent
   });
   sock.on("disconnect", () => recomputeConnected());
-  sock.on("connect_error", (err) =>
-    console.error(`[wins ${label}] connect_error:`, err?.message || err)
-  );
+  sock.on("connect_error", (err) => {
+    const errMsg = err?.message || String(err);
+    // Check for CORS-related errors
+    if (errMsg.includes("CORS") || errMsg.includes("xhr poll error") || errMsg.includes("polling")) {
+      console.error(
+        `[wins ${label}] Connection failed due to CORS. ` +
+        `The backend at ${WS_URL} needs to allow CORS for Socket.IO endpoints. ` +
+        `Error: ${errMsg}`
+      );
+    } else {
+      console.error(`[wins ${label}] connect_error:`, errMsg);
+    }
+  });
 
   // snapshot of recent wins (array)
   sock.on("wins:recent", (arr: any[]) => {
@@ -868,9 +888,9 @@ function ensureSocket() {
   if (!fakeSocket && ENABLE_FAKE_FEED) {
     try {
       // Use HTTP URL - Socket.IO will handle WebSocket upgrade
-      // Allow polling as fallback if WebSocket fails
+      // Prefer WebSocket first to avoid CORS issues with polling
       fakeSocket = io(`${WS_URL}/fake-feed`, { 
-        transports: ["polling", "websocket"], // Try polling first, then upgrade to websocket
+        transports: ["websocket", "polling"], // Try WebSocket first (no CORS), then polling as fallback
         withCredentials: true,
         reconnection: true,
         reconnectionDelay: 1000,
@@ -887,8 +907,9 @@ function ensureSocket() {
     if (!winsRoot) {
       try {
         // Use HTTP URL - Socket.IO will handle WebSocket upgrade
+        // Prefer WebSocket first to avoid CORS issues with polling
         winsRoot = io(`${WS_URL}`, { 
-          transports: ["polling", "websocket"], // Try polling first, then upgrade to websocket
+          transports: ["websocket", "polling"], // Try WebSocket first (no CORS), then polling as fallback
           withCredentials: true,
           reconnection: true,
           reconnectionDelay: 1000,
@@ -904,10 +925,10 @@ function ensureSocket() {
     if (!winsNs) {
       try {
         // Some servers mount the feed under /wins – listen to both to be safe.
-        // Some servers mount the feed under /wins – listen to both to be safe.
         // Use HTTP URL - Socket.IO will handle WebSocket upgrade
+        // Prefer WebSocket first to avoid CORS issues with polling
         winsNs = io(`${WS_URL}/wins`, { 
-          transports: ["polling", "websocket"], // Try polling first, then upgrade to websocket
+          transports: ["websocket", "polling"], // Try WebSocket first (no CORS), then polling as fallback
           withCredentials: true,
           reconnection: true,
           reconnectionDelay: 1000,
